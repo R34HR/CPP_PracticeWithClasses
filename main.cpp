@@ -1,25 +1,39 @@
 #include <iostream>
 #include <limits>
+#include <vector>
+#include <string>
 #include "account.h"
 using namespace std;
 
-int main() {
+void greeting (){
+        cout << "\n \n Hello and Welcome to SafeBank: Account tracker! \n \n";
+        cout << "\n Option A: Set Name: \n Option B: Display account balance  \n Option C: Deposit \n Option D: Withdrawl \n Option X: Exit \n\n" <<
+        "Please enter the option you wish to perform: ";
+}
 
+int main() {
+    string input;
     char option {};
     string name;
-    double deposit_amount;
+    long double amount;
 
     Account default_acct;
 
     do {
 
         option = {};
+        greeting();
+        cin >> input;
 
-        cout << "Hello and Welcome to Account tracker! \n \n";
-        cout << "\n Option A: Set Name: \n Option B: Deposit \n Option C: Total Balance \n Option X: Exit \n\n" <<
-        "Pleaser enter the option you wish to perform: ";
-        cin >> option;
+        while(input.length() != 1){
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "ERROR: Invalid Input Length --> Please enter a VALID option: \n";
+                greeting();
+                cin >> input;
+        }
 
+        option = input[0];
 
         switch (option){
             case 'a':
@@ -39,32 +53,47 @@ int main() {
                 break;
             case 'b':
             case 'B':
+                default_acct.tot_balance();
+
+                break;
+            case 'c':
+            case 'C':
+                amount = {0.0};
                 cout << "Enter the amount you wish to deposit: ";
-                cin >> deposit_amount;
+                cin >> amount;
                 while(cin.fail()){
                     cout << "Invalid Amount: Please enter valid Amount to deposit.\n"; 
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                     cout << "Please enter the amount to deposit: ";
-                    cin >> deposit_amount;
+                    cin >> amount;
                 }
                 cout << "\n";
-                default_acct.deposit(deposit_amount);
+                default_acct.deposit(amount);
                 cout << "\n \n";
                 break;
-            case 'c':
-            case 'C':
-                cout << "\n";
-                default_acct.tot_balance();
-                cout << "\n \n";
+            case 'd':
+            case 'D':
+                amount = {0.0};
+                cout << "Enter the amount you wish to withdraw: $";
+                cin >> amount;
+                while(cin.fail()){
+                    cout << "Invalid Amount: Please enter valid Amount you wish to withdraw.\n"; 
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Please enter the amount to withdraw: ";
+                    cin >> amount;
+                }
+                default_acct.withdrawl(amount);
                 break;
             case 'x':
             case 'X':
-            default:
                 cout << "\n";
                 cout << "Thank you for choosing us. Goodbye!" << endl;
                 cout << "\n \n";
                 break;
+            default:
+                cout << "Option:" << option << " is not an option! Please try again" << endl;
             
         }
 
